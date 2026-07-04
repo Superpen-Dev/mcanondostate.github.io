@@ -1,6 +1,8 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Layout from "./components/Layout";
+import ProtectedRoute from "./components/admin/ProtectedRoute";
 import ScrollToTop from "./components/ScrollToTop";
+import { SiteContentProvider } from "./context/SiteContentContext";
 import Home from "./pages/Home";
 import About from "./pages/About";
 import Events from "./pages/Events";
@@ -8,24 +10,32 @@ import Publications from "./pages/Publications";
 import Donate from "./pages/Donate";
 import Registration from "./pages/Registration";
 import Contact from "./pages/Contact";
+import PastAmeers from "./pages/PastAmeers";
+import AdminLogin from "./pages/admin/AdminLogin";
+import AdminDashboard from "./pages/admin/AdminDashboard";
 import NotFound from "./pages/NotFound";
 
 export default function App() {
   return (
     <BrowserRouter>
-      <ScrollToTop />
-      <Layout>
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/about" element={<About />} />
-          <Route path="/events" element={<Events />} />
-          <Route path="/publications" element={<Publications />} />
-          <Route path="/donate" element={<Donate />} />
-          <Route path="/registration" element={<Registration />} />
-          <Route path="/contact" element={<Contact />} />
-          <Route path="*" element={<NotFound />} />
-        </Routes>
-      </Layout>
+      <SiteContentProvider>
+        <ScrollToTop />
+        <Layout>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/about" element={<About />} />
+            <Route path="/events" element={<Events />} />
+            <Route path="/past-ameers" element={<PastAmeers />} />
+            <Route path="/publications" element={<Publications />} />
+            <Route path="/donate" element={<Donate />} />
+            <Route path="/registration" element={<Registration />} />
+            <Route path="/contact" element={<Contact />} />
+            <Route path="/admin/login" element={<AdminLogin />} />
+            <Route path="/admin" element={<ProtectedRoute><AdminDashboard /></ProtectedRoute>} />
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </Layout>
+      </SiteContentProvider>
     </BrowserRouter>
   );
 }

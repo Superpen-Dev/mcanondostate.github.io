@@ -1,8 +1,12 @@
 import { Landmark, HeartHandshake } from "lucide-react";
 import PageHeader from "../components/PageHeader";
 import SectionHeading from "../components/SectionHeading";
+import { useSiteContent } from "../context/SiteContentContext";
 
 export default function Donate() {
+  const { content } = useSiteContent();
+  const { donateContent } = content;
+
   return (
     <>
       <PageHeader title="Support Our Cause" subtitle="Your generosity sustains our work in the community" />
@@ -10,12 +14,10 @@ export default function Donate() {
       <section className="bg-parchment py-16">
         <div className="mx-auto max-w-3xl px-4 text-center sm:px-6">
           <p className="font-display text-xl italic leading-relaxed text-emerald-900">
-            "The example of those who spend their wealth in the way of Allah is like a seed of grain that
-            sprouts seven ears, in every ear a hundred grains." <span className="not-italic">&mdash; Qur'an 2:261</span>
+            {donateContent.quote}
           </p>
           <p className="mt-6 text-emerald-800/90">
-            Join us in our mission to support the community. Your generous donations help us provide
-            essential services, support, and relief to those in need.
+            {donateContent.description}
           </p>
         </div>
       </section>
@@ -41,7 +43,7 @@ export default function Donate() {
               Give securely online via Flutterwave in a few taps.
             </p>
             <a
-              href="https://www.flutterwave.com/pay/yourpaymentlink"
+              href={donateContent.paymentLink}
               target="_blank"
               rel="noreferrer"
               className="mt-6 inline-block rounded-full bg-brass-500 px-8 py-3 text-sm font-semibold tracking-wide text-emerald-950 transition-colors hover:bg-brass-400"
@@ -57,15 +59,15 @@ export default function Donate() {
             <dl className="mt-6 space-y-2 text-left text-sm text-emerald-900">
               <div className="flex justify-between border-b border-brass-100 pb-2">
                 <dt className="font-semibold">Bank Name</dt>
-                <dd>First Bank of Nigeria</dd>
+                <dd>{donateContent.bankName}</dd>
               </div>
               <div className="flex justify-between border-b border-brass-100 pb-2">
                 <dt className="font-semibold">Account Name</dt>
-                <dd>MCAN Ondo Capital Project</dd>
+                <dd>{donateContent.accountName}</dd>
               </div>
               <div className="flex justify-between pb-2">
                 <dt className="font-semibold">Account Number</dt>
-                <dd>3051345672</dd>
+                <dd>{donateContent.accountNumber}</dd>
               </div>
             </dl>
           </div>

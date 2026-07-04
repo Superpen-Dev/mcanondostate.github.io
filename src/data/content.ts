@@ -2,10 +2,12 @@ export const navLinks = [
   { to: "/", label: "Home" },
   { to: "/about", label: "About" },
   { to: "/events", label: "Events" },
+  { to: "/past-ameers", label: "Past Ameers" },
   { to: "/publications", label: "Publications" },
   { to: "/donate", label: "Donate" },
   { to: "/registration", label: "Registration" },
   { to: "/contact", label: "Contact" },
+  { to: "/admin", label: "Admin" },
 ];
 
 export const localGovernmentAmeers = [
