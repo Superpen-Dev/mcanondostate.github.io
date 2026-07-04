@@ -14,7 +14,7 @@ export default function Home() {
       <Hero />
       <VerseCard />
       <ProgramsGrid />
-      <UpcomingEventsSection />
+      <UpcomingEventsSection variant="featured" />
       <PublicationsTeaser />
       <AmeersAccordion />
       <PastEventsGallery />
