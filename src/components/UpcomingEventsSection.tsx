@@ -45,10 +45,10 @@ export default function UpcomingEventsSection({ light, variant = "standard" }: U
 
         {isFeatured ? (
           <div className="grid gap-6 lg:grid-cols-[1.15fr_0.85fr]">
-            <div className="overflow-hidden rounded-[2rem] border border-emerald-200 bg-emerald-950 shadow-xl shadow-emerald-950/10">
+            <div className="overflow-hidden rounded-4xl border border-emerald-200 bg-emerald-950 shadow-xl shadow-emerald-950/10">
               <div className="relative">
-                <img src={resolveImageSrc(activeEvent.image)} alt={activeEvent.title} className="h-72 w-full object-cover sm:h-[28rem]" />
-                <div className="absolute inset-0 bg-gradient-to-t from-emerald-950 via-emerald-950/40 to-transparent" />
+                <img src={resolveImageSrc(activeEvent.image)} alt={activeEvent.title} className="h-72 w-full object-cover sm:h-112" />
+                <div className="absolute inset-0 bg-linear-to-t from-emerald-950 via-emerald-950/40 to-transparent" />
                 <div className="absolute inset-x-0 bottom-0 p-6 sm:p-8">
                   <div className="inline-flex items-center rounded-full border border-brass-300/40 bg-white/10 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.2em] text-brass-200">
                     Featured upcoming event
@@ -105,7 +105,7 @@ export default function UpcomingEventsSection({ light, variant = "standard" }: U
             </div>
 
             <div className="space-y-4">
-              <div className={`rounded-[1.5rem] border p-6 shadow-sm ${light ? "border-emerald-800 bg-emerald-900" : "border-brass-200 bg-parchment"}`}>
+              <div className={`rounded-3xl border p-6 shadow-sm ${light ? "border-emerald-800 bg-emerald-900" : "border-brass-200 bg-parchment"}`}>
                 <p className={`text-sm font-semibold uppercase tracking-[0.2em] ${light ? "text-brass-300" : "text-brass-600"}`}>
                   Why join us
                 </p>

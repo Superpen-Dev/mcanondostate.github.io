@@ -152,7 +152,7 @@ export default function AdminDashboard() {
   return (
     <div className="min-h-screen bg-emerald-950 text-emerald-50">
       <div className="mx-auto flex max-w-7xl flex-col gap-6 px-4 py-6 sm:px-6 lg:px-8">
-        <div className="flex flex-wrap items-center justify-between gap-4 rounded-[2rem] border border-emerald-800 bg-emerald-900/80 p-6 shadow-xl">
+        <div className="flex flex-wrap items-center justify-between gap-4 rounded-4xl border border-emerald-800 bg-emerald-900/80 p-6 shadow-xl">
           <div>
             <p className="text-sm font-semibold uppercase tracking-[0.2em] text-brass-300">Website Control Center</p>
             <h1 className="mt-2 font-display text-3xl font-semibold text-white">Admin Dashboard</h1>
@@ -171,7 +171,7 @@ export default function AdminDashboard() {
 
         <div className="grid gap-3 md:grid-cols-4">
           {stats.map(({ label, value, icon: Icon }) => (
-            <div key={label} className="rounded-[1.5rem] border border-emerald-800 bg-emerald-900/70 p-4 shadow-sm">
+            <div key={label} className="rounded-3xl border border-emerald-800 bg-emerald-900/70 p-4 shadow-sm">
               <div className="flex items-center justify-between">
                 <div>
                   <p className="text-sm text-emerald-200">{label}</p>
@@ -185,7 +185,7 @@ export default function AdminDashboard() {
           ))}
         </div>
 
-        <div className="flex flex-wrap gap-2 rounded-[2rem] border border-emerald-800 bg-emerald-900/70 p-3">
+        <div className="flex flex-wrap gap-2 rounded-4xl border border-emerald-800 bg-emerald-900/70 p-3">
           {sections.map((section) => (
             <button
               key={section.key}
@@ -199,7 +199,7 @@ export default function AdminDashboard() {
         </div>
 
         <div className="grid gap-6 lg:grid-cols-[1.1fr_0.9fr]">
-          <div className="rounded-[2rem] border border-emerald-800 bg-white p-6 text-emerald-950 shadow-xl">
+          <div className="rounded-4xl border border-emerald-800 bg-white p-6 text-emerald-950 shadow-xl">
             {activeSection === "events" && (
               <div className="space-y-6">
                 <div>
@@ -427,7 +427,7 @@ export default function AdminDashboard() {
           </div>
 
           <div className="space-y-6">
-            <div className="rounded-[2rem] border border-emerald-800 bg-emerald-900/70 p-6 shadow-xl">
+            <div className="rounded-4xl border border-emerald-800 bg-emerald-900/70 p-6 shadow-xl">
               <h2 className="font-display text-2xl font-semibold text-white">Quick Notes</h2>
               <ul className="mt-5 space-y-4 text-sm leading-7 text-emerald-100/90">
                 <li>• Use the sign-in credentials <span className="font-semibold text-white">admin@mcano.com</span> and <span className="font-semibold text-white">admin123</span> to enter the dashboard.</li>
@@ -436,7 +436,7 @@ export default function AdminDashboard() {
               </ul>
             </div>
 
-            <div className="rounded-[2rem] border border-emerald-800 bg-white p-6 text-emerald-950 shadow-xl">
+            <div className="rounded-4xl border border-emerald-800 bg-white p-6 text-emerald-950 shadow-xl">
               <h3 className="font-display text-xl font-semibold">Dashboard Tips</h3>
               <div className="mt-4 space-y-3 text-sm text-emerald-800/80">
                 <div className="rounded-2xl border border-brass-200 bg-parchment p-3">
