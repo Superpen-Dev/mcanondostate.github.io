@@ -3,6 +3,7 @@ import PageHeader from "../components/PageHeader";
 
 const REGISTRATION_ENDPOINT =
   "https://script.google.com/macros/s/AKfycbw7SteBwMFYFUIJEf6-pGNdP1vay1DyMF8SLa17B24gFnTtaUZeIoutYFtSdd-PrvGb/exec";
+const REGISTRATIONS_STORAGE_KEY = "mcan-ondo-registrations";
 
 type Step = "form" | "payment" | "confirmed";
 
@@ -41,6 +42,11 @@ export default function Registration() {
         method: "POST",
         body: JSON.stringify(data),
       });
+
+      const savedRegistrations = JSON.parse(window.localStorage.getItem(REGISTRATIONS_STORAGE_KEY) ?? "[]") as Array<Record<string, string>>;
+      savedRegistrations.push({ ...data, submittedAt: new Date().toLocaleString() });
+      window.localStorage.setItem(REGISTRATIONS_STORAGE_KEY, JSON.stringify(savedRegistrations));
+
       setStep("confirmed");
     } catch (error) {
       console.error("Registration error:", error);

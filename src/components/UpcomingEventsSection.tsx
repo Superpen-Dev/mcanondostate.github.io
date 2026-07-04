@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Calendar, ChevronLeft, ChevronRight, MapPin, Sparkles } from "lucide-react";
 import { Link } from "react-router-dom";
 import { images } from "../assets/images";
-import { upcomingEvents } from "../data/content";
+import { useSiteContent } from "../context/SiteContentContext";
 import SectionHeading from "./SectionHeading";
 
 type UpcomingEventsSectionProps = {
@@ -11,6 +11,8 @@ type UpcomingEventsSectionProps = {
 };
 
 export default function UpcomingEventsSection({ light, variant = "standard" }: UpcomingEventsSectionProps) {
+  const { content } = useSiteContent();
+  const upcomingEvents = content.upcomingEvents;
   const [activeIndex, setActiveIndex] = useState(0);
   const isFeatured = variant === "featured";
 

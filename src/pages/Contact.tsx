@@ -1,6 +1,7 @@
 import { useState, type FormEvent } from "react";
 import { Mail, Phone } from "lucide-react";
 import PageHeader from "../components/PageHeader";
+import { useSiteContent } from "../context/SiteContentContext";
 
 const CONTACT_ENDPOINT =
   "https://script.google.com/macros/s/AKfycbzk5BBdyfFLgoKHhhcN_WWJyknaTYUnXBG2EbojpjXgh3BFyFPJLtV27zEefu6SJ-zl/exec";
@@ -10,6 +11,7 @@ const inputClass =
 const labelClass = "block text-sm font-medium text-emerald-900";
 
 export default function Contact() {
+  const { content } = useSiteContent();
   const [status, setStatus] = useState<"idle" | "sending" | "sent" | "error">("idle");
   const [form, setForm] = useState({ name: "", email: "", message: "" });
 
@@ -92,7 +94,7 @@ export default function Contact() {
             <div className="overflow-hidden rounded-2xl border border-brass-200 shadow-sm">
               <iframe
                 title="MCAN Ondo State location"
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3162.912362225054!2d-122.08424968469106!3d37.4219997798258!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x808fb5cdd2e84f53%3A0x120d7344c8f6a9f5!2sGoogleplex!5e0!3m2!1sen!2s!4v1617168793848!5m2!1sen!2s"
+                src={content.contactContent.mapEmbedUrl}
                 width="100%"
                 height="300"
                 style={{ border: 0 }}
@@ -104,12 +106,12 @@ export default function Contact() {
               <ul className="mt-4 space-y-3 text-sm text-emerald-800/90">
                 <li className="flex items-center gap-2">
                   <Phone size={16} className="text-brass-500" />
-                  <a href="tel:+2348062359302" className="hover:text-brass-600">+234 806 235 9302</a>
+                  <a href={`tel:${content.contactContent.phone.replace(/\s/g, "")}`} className="hover:text-brass-600">{content.contactContent.phone}</a>
                 </li>
                 <li className="flex items-center gap-2">
                   <Mail size={16} className="text-brass-500" />
                   <a href="mailto:mcanondostate23@gmail.com" className="hover:text-brass-600">
-                    mcanondostate23@gmail.com
+                    {content.contactContent.email}
                   </a>
                 </li>
               </ul>
