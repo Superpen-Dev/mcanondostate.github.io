@@ -7,7 +7,6 @@ export const navLinks = [
   { to: "/donate", label: "Donate" },
   { to: "/registration", label: "Registration" },
   { to: "/contact", label: "Contact" },
-  { to: "/admin", label: "Admin" },
 ];
 
 export const localGovernmentAmeers = [

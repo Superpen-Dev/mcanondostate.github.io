@@ -75,7 +75,6 @@ export const defaultSiteContent: SiteContent = {
     { to: "/donate", label: "Donate" },
     { to: "/registration", label: "Registration" },
     { to: "/contact", label: "Contact" },
-    { to: "/admin", label: "Admin" },
   ],
   upcomingEvents: [
     { title: "Annual Islamic Lecture", theme: "Faith and Character", venue: "MCAN Secretariat, Akure", date: "12 August 2026", image: "nikah" },

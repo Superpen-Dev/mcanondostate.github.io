@@ -49,6 +49,8 @@ const socials = [
 ];
 
 export default function Footer() {
+  const publicNavLinks = navLinks.filter((link) => link.to !== "/admin");
+
   return (
     <footer className="bg-emerald-950 text-emerald-50">
       <div className="mx-auto grid max-w-7xl gap-10 px-4 py-12 sm:px-6 md:grid-cols-2">
@@ -88,7 +90,7 @@ export default function Footer() {
           <div>
             <h3 className="mb-3 font-display text-base font-semibold text-brass-300">Quick Links</h3>
             <ul className="space-y-2 text-sm text-emerald-100/90">
-              {navLinks.map((link) => (
+              {publicNavLinks.map((link) => (
                 <li key={link.to}>
                   <Link to={link.to} className="hover:text-brass-300">
                     {link.label}

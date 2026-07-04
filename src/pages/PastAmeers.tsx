@@ -1,7 +1,7 @@
 import PageHeader from "../components/PageHeader";
 import SectionHeading from "../components/SectionHeading";
-import { images } from "../assets/images";
 import { useSiteContent } from "../context/SiteContentContext";
+import { resolveImageSrc } from "../utils/image";
 
 export default function PastAmeers() {
   const { content } = useSiteContent();
@@ -15,7 +15,7 @@ export default function PastAmeers() {
           <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
             {content.pastAmeers.map((ameer) => (
               <article key={ameer.name} className="overflow-hidden rounded-[2rem] border border-brass-200 bg-white shadow-sm">
-                <img src={images[ameer.image]} alt={ameer.name} className="h-56 w-full object-cover" />
+                <img src={resolveImageSrc(ameer.image)} alt={ameer.name} className="h-56 w-full object-cover" />
                 <div className="space-y-2 p-6">
                   <div className="flex items-center justify-between gap-3">
                     <h3 className="font-display text-xl font-semibold text-emerald-950">{ameer.name}</h3>

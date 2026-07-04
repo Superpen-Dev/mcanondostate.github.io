@@ -1,8 +1,8 @@
 import { Target, Eye, Megaphone } from "lucide-react";
 import PageHeader from "../components/PageHeader";
 import SectionHeading from "../components/SectionHeading";
-import { images } from "../assets/images";
 import { useSiteContent } from "../context/SiteContentContext";
+import { resolveImageSrc } from "../utils/image";
 
 const pillars = [
   {
@@ -76,7 +76,7 @@ export default function About() {
           <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {executives.map((exec) => (
               <div key={exec.name} className="overflow-hidden rounded-2xl border border-brass-200 bg-white shadow-sm">
-                <img src={images[exec.image]} alt={exec.name} className="h-56 w-full object-cover" />
+                <img src={resolveImageSrc(exec.image)} alt={exec.name} className="h-56 w-full object-cover" />
                 <div className="space-y-1.5 p-6 text-sm">
                   <h3 className="font-display text-lg font-semibold text-emerald-950">{exec.name}</h3>
                   <p>
