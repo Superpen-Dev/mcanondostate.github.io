@@ -1,0 +1,80 @@
+@import "tailwindcss";
+
+@theme {
+  --font-display: "Fraunces", "Georgia", serif;
+  --font-sans: "Work Sans", ui-sans-serif, system-ui, sans-serif;
+
+  --color-ink: #0f2a22;
+  --color-emerald-950: #06231b;
+  --color-emerald-900: #0b3a2c;
+  --color-emerald-800: #0e4a38;
+  --color-emerald-700: #135a44;
+  --color-emerald-600: #1a7259;
+  --color-emerald-100: #e2ede7;
+  --color-emerald-50: #f2f7f4;
+
+  --color-brass-700: #8a6416;
+  --color-brass-600: #a97b1c;
+  --color-brass-500: #b8862e;
+  --color-brass-400: #cba24f;
+  --color-brass-200: #ecdcb2;
+  --color-brass-100: #f5ead0;
+
+  --color-parchment: #fbf8f1;
+  --color-parchment-dim: #f4efe3;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--color-parchment);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+}
+
+h1, h2, h3, h4 {
+  font-family: var(--font-display);
+}
+
+/* Eight-pointed star motif, signature element */
+.khatam {
+  --s: 1em;
+  width: var(--s);
+  height: var(--s);
+  display: inline-block;
+  background: currentColor;
+  clip-path: polygon(
+    50% 0%, 61% 20%, 82% 12%, 80% 35%, 100% 43%, 82% 57%,
+    92% 78%, 69% 74%, 62% 95%, 50% 78%, 38% 95%, 31% 74%,
+    8% 78%, 18% 57%, 0% 43%, 20% 35%, 18% 12%, 39% 20%
+  );
+}
+
+/* Arch shape for card tops, echoing a mihrab silhouette */
+.arch-top {
+  border-radius: 999px 999px 0 0 / 60px 60px 0 0;
+}
+
+@keyframes marquee-scroll {
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-marquee {
+  animation: marquee-scroll 22s linear infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
