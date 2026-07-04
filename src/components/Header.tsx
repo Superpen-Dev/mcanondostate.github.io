@@ -6,6 +6,7 @@ import { navLinks } from "../data/content";
 
 export default function Header() {
   const [open, setOpen] = useState(false);
+  const publicNavLinks = navLinks.filter((link) => link.to !== "/admin");
 
   return (
     <header className="sticky top-0 z-50 bg-emerald-950 shadow-lg shadow-emerald-950/20">
@@ -23,7 +24,7 @@ export default function Header() {
 
         <nav className="hidden lg:block">
           <ul className="flex items-center gap-1">
-            {navLinks.map((link) => (
+            {publicNavLinks.map((link) => (
               <li key={link.to}>
                 <NavLink
                   to={link.to}
@@ -56,7 +57,7 @@ export default function Header() {
       {open && (
         <nav className="border-t border-emerald-800 bg-emerald-950 lg:hidden">
           <ul className="mx-auto flex max-w-7xl flex-col px-4 py-2">
-            {navLinks.map((link) => (
+            {publicNavLinks.map((link) => (
               <li key={link.to}>
                 <NavLink
                   to={link.to}

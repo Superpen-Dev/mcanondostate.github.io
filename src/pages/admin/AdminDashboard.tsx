@@ -1,9 +1,10 @@
 import { useState, type FormEvent } from "react";
-import { LogOut, Plus, Trash2 } from "lucide-react";
+import { ImagePlus, LogOut, Plus, Trash2, Users, CalendarDays, FileText, HandCoins } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { images } from "../../assets/images";
 import { useSiteContent } from "../../context/SiteContentContext";
 import type { DonateContent, ExecutiveItem, PastAmeerItem, UpcomingEvent } from "../../data/siteContent";
+import { resolveImageSrc } from "../../utils/image";
 
 const AUTH_KEY = "mcan-admin-auth";
 const REGISTRATIONS_STORAGE_KEY = "mcan-ondo-registrations";
@@ -52,6 +53,16 @@ export default function AdminDashboard() {
   function saveFeedback(message: string) {
     setFeedback(message);
     window.setTimeout(() => setFeedback(""), 3000);
+  }
+
+  function handleImageUpload(file: File, setter: (value: string) => void) {
+    const reader = new FileReader();
+    reader.onload = () => {
+      if (typeof reader.result === "string") {
+        setter(reader.result);
+      }
+    };
+    reader.readAsDataURL(file);
   }
 
   function handleEventSubmit(event: FormEvent) {
@@ -121,6 +132,13 @@ export default function AdminDashboard() {
     saveFeedback("Registration removed.");
   }
 
+  const stats = [
+    { label: "Events", value: content.upcomingEvents.length, icon: CalendarDays },
+    { label: "Executives", value: content.executives.length, icon: Users },
+    { label: "Past Ameers", value: content.pastAmeers.length, icon: FileText },
+    { label: "Registrations", value: registrations.length, icon: HandCoins },
+  ];
+
   const sections: Array<{ key: SectionKey; label: string }> = [
     { key: "events", label: "Events" },
     { key: "registrations", label: "Registrations" },
@@ -151,6 +169,22 @@ export default function AdminDashboard() {
 
         {feedback && <div className="rounded-2xl border border-brass-400/30 bg-emerald-900/70 px-4 py-3 text-sm">{feedback}</div>}
 
+        <div className="grid gap-3 md:grid-cols-4">
+          {stats.map(({ label, value, icon: Icon }) => (
+            <div key={label} className="rounded-[1.5rem] border border-emerald-800 bg-emerald-900/70 p-4 shadow-sm">
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-sm text-emerald-200">{label}</p>
+                  <p className="mt-1 text-2xl font-semibold text-white">{value}</p>
+                </div>
+                <div className="rounded-full bg-white/10 p-3 text-brass-300">
+                  <Icon size={18} />
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+
         <div className="flex flex-wrap gap-2 rounded-[2rem] border border-emerald-800 bg-emerald-900/70 p-3">
           {sections.map((section) => (
             <button
@@ -177,11 +211,26 @@ export default function AdminDashboard() {
                   <input required value={eventForm.theme} onChange={(e) => setEventForm((current) => ({ ...current, theme: e.target.value }))} placeholder="Theme" className="w-full rounded-md border border-brass-200 px-4 py-3 text-sm" />
                   <input required value={eventForm.venue} onChange={(e) => setEventForm((current) => ({ ...current, venue: e.target.value }))} placeholder="Venue" className="w-full rounded-md border border-brass-200 px-4 py-3 text-sm" />
                   <input required value={eventForm.date} onChange={(e) => setEventForm((current) => ({ ...current, date: e.target.value }))} placeholder="Date" className="w-full rounded-md border border-brass-200 px-4 py-3 text-sm" />
-                  <select value={eventForm.image} onChange={(e) => setEventForm((current) => ({ ...current, image: e.target.value }))} className="w-full rounded-md border border-brass-200 px-4 py-3 text-sm">
+                  <label className="block rounded-2xl border border-dashed border-brass-300 bg-parchment p-4 text-sm text-emerald-800">
+                    <span className="mb-2 flex items-center gap-2 font-semibold text-emerald-950"><ImagePlus size={16} />Upload event image</span>
+                    <input type="file" accept="image/*" className="block w-full text-sm" onChange={(event) => {
+                      const file = event.target.files?.[0];
+                      if (file) {
+                        handleImageUpload(file, (value) => setEventForm((current) => ({ ...current, image: value })));
+                      }
+                    }} />
+                  </label>
+                  <select value={eventForm.image.startsWith("data:") ? "" : eventForm.image} onChange={(e) => setEventForm((current) => ({ ...current, image: e.target.value }))} className="w-full rounded-md border border-brass-200 px-4 py-3 text-sm">
+                    <option value="">Use a built-in image</option>
                     {Object.keys(images).map((imageKey) => (
                       <option key={imageKey} value={imageKey}>{imageKey}</option>
                     ))}
                   </select>
+                  {eventForm.image && (
+                    <div className="overflow-hidden rounded-2xl border border-brass-200">
+                      <img src={resolveImageSrc(eventForm.image)} alt="Event preview" className="h-40 w-full object-cover" />
+                    </div>
+                  )}
                   <button type="submit" className="inline-flex items-center gap-2 rounded-full bg-emerald-950 px-5 py-3 text-sm font-semibold text-white transition hover:bg-brass-500 hover:text-emerald-950">
                     <Plus size={16} />
                     {editingEventIndex === null ? "Add event" : "Save event"}
@@ -260,11 +309,24 @@ export default function AdminDashboard() {
                   <input required value={executiveForm.institution} onChange={(e) => setExecutiveForm((current) => ({ ...current, institution: e.target.value }))} placeholder="Institution" className="w-full rounded-md border border-brass-200 px-4 py-3 text-sm" />
                   <input required value={executiveForm.phone} onChange={(e) => setExecutiveForm((current) => ({ ...current, phone: e.target.value }))} placeholder="Phone" className="w-full rounded-md border border-brass-200 px-4 py-3 text-sm" />
                   <input required value={executiveForm.email} onChange={(e) => setExecutiveForm((current) => ({ ...current, email: e.target.value }))} placeholder="Email" className="w-full rounded-md border border-brass-200 px-4 py-3 text-sm" />
-                  <select value={executiveForm.image} onChange={(e) => setExecutiveForm((current) => ({ ...current, image: e.target.value }))} className="w-full rounded-md border border-brass-200 px-4 py-3 text-sm">
-                    {Object.keys(images).map((imageKey) => (
-                      <option key={imageKey} value={imageKey}>{imageKey}</option>
-                    ))}
-                  </select>
+                  <label className="block rounded-2xl border border-dashed border-brass-300 bg-parchment p-4 text-sm text-emerald-800">
+                    <span className="mb-2 flex items-center gap-2 font-semibold text-emerald-950"><ImagePlus size={16} />Upload executive image</span>
+                    <input type="file" accept="image/*" className="block w-full text-sm" onChange={(event) => {
+                      const file = event.target.files?.[0];
+                      if (file) {
+                        handleImageUpload(file, (value) => setExecutiveForm((current) => ({ ...current, image: value })));
+                      }
+                    }} />
+                  </label>
+                  {executiveForm.image && (
+                    <div className="overflow-hidden rounded-2xl border border-brass-200">
+                      <img src={resolveImageSrc(executiveForm.image)} alt="Executive preview" className="h-40 w-full object-cover" />
+                    </div>
+                  )}
+                  <div className="rounded-2xl border border-brass-200 bg-emerald-50 p-3 text-sm text-emerald-800">
+                    <p className="font-semibold">Tip</p>
+                    <p className="mt-1">Use a clear portrait image for the executive card on the public About page.</p>
+                  </div>
                   <button type="submit" className="rounded-full bg-emerald-950 px-5 py-3 text-sm font-semibold text-white">{editingExecutiveIndex === null ? "Add executive" : "Save executive"}</button>
                 </form>
                 <div className="space-y-3">
@@ -330,11 +392,20 @@ export default function AdminDashboard() {
                   <input required value={amaeerForm.year} onChange={(e) => setAmeerForm((current) => ({ ...current, year: e.target.value }))} placeholder="Year" className="w-full rounded-md border border-brass-200 px-4 py-3 text-sm" />
                   <input required value={amaeerForm.location} onChange={(e) => setAmeerForm((current) => ({ ...current, location: e.target.value }))} placeholder="Location" className="w-full rounded-md border border-brass-200 px-4 py-3 text-sm" />
                   <textarea required value={amaeerForm.bio} onChange={(e) => setAmeerForm((current) => ({ ...current, bio: e.target.value }))} placeholder="Brief biography" className="min-h-24 w-full rounded-md border border-brass-200 px-4 py-3 text-sm" />
-                  <select value={amaeerForm.image} onChange={(e) => setAmeerForm((current) => ({ ...current, image: e.target.value }))} className="w-full rounded-md border border-brass-200 px-4 py-3 text-sm">
-                    {Object.keys(images).map((imageKey) => (
-                      <option key={imageKey} value={imageKey}>{imageKey}</option>
-                    ))}
-                  </select>
+                  <label className="block rounded-2xl border border-dashed border-brass-300 bg-parchment p-4 text-sm text-emerald-800">
+                    <span className="mb-2 flex items-center gap-2 font-semibold text-emerald-950"><ImagePlus size={16} />Upload past ameer image</span>
+                    <input type="file" accept="image/*" className="block w-full text-sm" onChange={(event) => {
+                      const file = event.target.files?.[0];
+                      if (file) {
+                        handleImageUpload(file, (value) => setAmeerForm((current) => ({ ...current, image: value })));
+                      }
+                    }} />
+                  </label>
+                  {amaeerForm.image && (
+                    <div className="overflow-hidden rounded-2xl border border-brass-200">
+                      <img src={resolveImageSrc(amaeerForm.image)} alt="Past ameer preview" className="h-40 w-full object-cover" />
+                    </div>
+                  )}
                   <button type="submit" className="rounded-full bg-emerald-950 px-5 py-3 text-sm font-semibold text-white">{editingAmeerIndex === null ? "Add past ameer" : "Save past ameer"}</button>
                 </form>
                 <div className="space-y-3">
@@ -355,13 +426,29 @@ export default function AdminDashboard() {
             )}
           </div>
 
-          <div className="rounded-[2rem] border border-emerald-800 bg-emerald-900/70 p-6 shadow-xl">
-            <h2 className="font-display text-2xl font-semibold text-white">Quick Notes</h2>
-            <ul className="mt-5 space-y-4 text-sm leading-7 text-emerald-100/90">
-              <li>• Use the sign-in credentials <span className="font-semibold text-white">admin@mcano.com</span> and <span className="font-semibold text-white">admin123</span> to enter the dashboard.</li>
-              <li>• Changes are saved locally in your browser so you can update the site content instantly.</li>
-              <li>• Fresh registrations are collected from the public registration form and shown here for review.</li>
-            </ul>
+          <div className="space-y-6">
+            <div className="rounded-[2rem] border border-emerald-800 bg-emerald-900/70 p-6 shadow-xl">
+              <h2 className="font-display text-2xl font-semibold text-white">Quick Notes</h2>
+              <ul className="mt-5 space-y-4 text-sm leading-7 text-emerald-100/90">
+                <li>• Use the sign-in credentials <span className="font-semibold text-white">admin@mcano.com</span> and <span className="font-semibold text-white">admin123</span> to enter the dashboard.</li>
+                <li>• Changes are saved locally in your browser so you can update the site content instantly.</li>
+                <li>• Fresh registrations are collected from the public registration form and shown here for review.</li>
+              </ul>
+            </div>
+
+            <div className="rounded-[2rem] border border-emerald-800 bg-white p-6 text-emerald-950 shadow-xl">
+              <h3 className="font-display text-xl font-semibold">Dashboard Tips</h3>
+              <div className="mt-4 space-y-3 text-sm text-emerald-800/80">
+                <div className="rounded-2xl border border-brass-200 bg-parchment p-3">
+                  <p className="font-semibold text-emerald-950">Image upload</p>
+                  <p className="mt-1">Executive and Past Ameer entries can now use a real uploaded image instead of only the default sample images.</p>
+                </div>
+                <div className="rounded-2xl border border-brass-200 bg-parchment p-3">
+                  <p className="font-semibold text-emerald-950">Keep it fresh</p>
+                  <p className="mt-1">Update your events and leadership section often so the homepage stays current.</p>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
